@@ -1,21 +1,12 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
+'''Import modules'''
 import math
 import numpy as np
 import random
 import matplotlib.pyplot as plt
 
+'''Sampling Random Numbers'''
 
-# $$\text{Sampling Random Numbers}$$
-
-# In[3]:
-
-
-# Pt a - c: Sample Nc = 100 and Nc = 100000 random numbers. Compare histograms
+# Pt a - c: Sample Nc = 100 and Nc = 100000 random numbers from uniform distribution (URN). Compare histograms
 Nc1 = 100
 Nc2 = 100000
 xmin = 0
@@ -38,11 +29,8 @@ plt.hist(sample2, edgecolor = "black", bins = bins2)
 plt.title(f'URN Nc = {Nc2}')
 plt.show()
 
+# Parts d-e: Sample Nc = 100000 random numbers from normal distribution. Compare histograms
 
-# In[5]:
-
-
-# Parts d-e: Sample Nc = 100000 random numbers from 
 sample3 = np.random.normal(0, 3, Nc1)
 sample4 = np.random.normal(0, 3, Nc2)
 
@@ -57,16 +45,7 @@ plt.title(f'Normal Nc = {Nc2}')
 plt.show()
 
 
-# In[38]:
-
-
-# Parts a-h are below.
-
-
-# $$\text{1D Hopping Process}$$
-
-# In[8]:
-
+'''1D Hopping Process'''
 
 # 1D Hop function
 def Hop_1D(x0, k, dt, Nsteps):
@@ -83,10 +62,6 @@ def Hop_1D(x0, k, dt, Nsteps):
         hop[i+1] = hop[i] + np.random.choice(step_options, p = weights)
         
     return hop
-
-
-# In[9]:
-
 
 # Run Simulation
 Nsteps = 100
@@ -112,10 +87,6 @@ print(f'Halfway mean squared displacement: {x_half_meansq}')
 print(f'End mean displacement: {x_end_mean}')
 print(f'End mean squared displacement: {x_end_meansq}')
 
-
-# In[10]:
-
-
 # Increasing k from 1-->4
 Nsteps = 100
 Nsims = 1000
@@ -139,10 +110,6 @@ print(f'Halfway mean squared displacement: {x_half_meansq}')
 
 print(f'End mean displacement: {x_end_mean}')
 print(f'End mean squared displacement: {x_end_meansq}')
-
-
-# In[11]:
-
 
 # Unequal probabilities: pleft > pright
 def Hop_1D(x0, k, dt, Nsteps):
@@ -184,11 +151,7 @@ print(f'Halfway mean squared displacement: {x_half_meansq}')
 print(f'End mean displacement: {x_end_mean}')
 print(f'End mean squared displacement: {x_end_meansq}')
 
-
-# $$\text{Continuous 1D Random Walk}$$
-
-# In[12]:
-
+'''1D Continuous Random Walk'''
 
 def ContRandWalk1D(x0, t0, D, dt, Nsteps):
     
@@ -214,11 +177,7 @@ plt.show()
 print(f'Halfway displacement: {x[50]} μm')
 print(f'End displacement: {x[100]} μm')
 
-
-# $$\text{Continuous 2D Random Walk}$$
-
-# In[22]:
-
+'''2D Continuous Random Walk'''
 
 def ContRandWalk2D(x0, y0, D, dt, Nsteps):
     sigma = math.sqrt(2*D*dt)
@@ -252,11 +211,7 @@ print(f'Halfway position: {x[50], y[50]}')
 print(f'End position: {x[100], y[100]}')
 print(f'Net distance from initial point: {math.sqrt(x[100]**2 + y[100]**2)} μm')
 
-
-# $$\text{Continuous 2D Random Walk with Bias}$$
-
-# In[31]:
-
+'''2D Continuous Random Walk with Harmonic Bond Bias'''
 
 def ContRandWalk2D_Bias(x0, y0, D, T, dt, Nsteps):
     kT = 1
@@ -290,10 +245,4 @@ plt.show()
 print(f'Halfway position: {x[50], y[50]}')
 print(f'End position: {x[100], y[100]}')
 print(f'Net distance from initial point: {math.sqrt(x[100]**2 + y[100]**2)} μm')
-
-
-# In[ ]:
-
-
-
 
