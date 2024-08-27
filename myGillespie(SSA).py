@@ -1,15 +1,8 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[33]:
-
-
 '''Import libraries and modules'''
 import numpy as np
 from scipy.special import factorial
 import matplotlib.pyplot as plt
 get_ipython().run_line_magic('matplotlib', 'inline')
-
 
 '''RECURRING FUNCTIONS'''
 
@@ -120,5 +113,4 @@ def gillespie(Xinit, rates, stoch_react, stoch_prod, tmax, max_iterations):
     store_Rnum = store_Rnum[:t_count]
     
     return store_t, store_X, store_Rnum
-
-
+    
