@@ -5,7 +5,6 @@ from scipy.integrate import solve_ivp
 from scipy.special import factorial
 from myGillespie(SSA) import choose_tau_mu, binom, gillespie
 import matplotlib.pyplot as plt
-get_ipython().run_line_magic('matplotlib', 'inline')
 
 '''First Order Simulation'''
 
