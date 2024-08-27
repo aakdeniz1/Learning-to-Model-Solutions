@@ -1,29 +1,13 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[89]:
-
-
+'''Import modules'''
 import math
 import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.special import factorial
-from Gillespie import choose_tau_mu, binom, gillespie
+from myGillespie(SSA) import choose_tau_mu, binom, gillespie
 import matplotlib.pyplot as plt
 get_ipython().run_line_magic('matplotlib', 'inline')
 
-
-# $
-# \text{1st-order reaction (forward rate $k_1$): } A\longrightarrow B \\ \frac{dA}{dt} = -k_1 A ; \frac{dB}{dt} = k_1 A\\ A(0) = A_0; B(0) = B_0 \\
-# \text{2nd-order reaction (forward rate $k_2$): } A+B\longrightarrow C \\ \frac{dA}{dt} = \frac{dB}{dt} = -k_2 AB ; \frac{dC}{dt} = k_2 AB\\ A(0) = A_0; B(0) = B_0; C(0) = C_0\\\
-# $
-
-# $
-# \text{1st-Order}
-# $
-
-# In[90]:
-
+'''First Order Simulation'''
 
 # Reaction Rate
 k1 = 3 # 1/s
@@ -35,25 +19,19 @@ B0 = 0
 # Initialize time vector and number of stochastic trajectories
 tspan = 2
 tvals = np.linspace(0, tspan, 100)
-
 numtraj = 10
-
-
-# In[91]:
-
 
 # Analytical Solutions
 A = A0*np.exp(-k1*tvals)
 B = B0 + A0*(1 - np.exp(-k1*tvals))
 
-# Rate equations
+# Numerical Solutions
 def dAdt(t, A):
     return -k1*A
 
 def dBdt(t, B):
     return k1*(A0 + B0 - B)
- 
-# Numerical Solutions
+
 A_num = solve_ivp(dAdt, (0, tspan), [A0], t_eval = tvals)
 B_num = solve_ivp(dBdt, (0, tspan), [B0], t_eval = tvals)
 
@@ -98,13 +76,7 @@ print(f'Avg half time: {tau_actual} seconds')
 print(f'Theoretical half time: ln(2)/k1 = {tau_theoretical} seconds')
 print(f'Percent deviation: (actual-theoretical)/theoretical = {abs(tau_actual-tau_theoretical)/tau_theoretical*100} %')
 
-
-# $
-# \text{2nd-Order}
-# $
-
-# In[92]:
-
+'''Second Order Simulation'''
 
 # Reaction Rate
 k2 = 1 # /μM/s
@@ -119,19 +91,14 @@ V = 100
 # Initialize time vector and number of stochastic trajectories
 tspan = 4
 tvals = np.linspace(0, tspan, 100)
-
 numtraj = 10
-
-
-# In[93]:
-
 
 # Analytical Solutions
 A = (A0 - B0)/(1 - B0/A0*np.exp(-k2*(A0 - B0)*tvals))
 B = (B0 - A0)/(1 - A0/B0*np.exp(-k2*(B0 - A0)*tvals))
 C = C0 + A0*(1 - np.exp(-k2*(B0 - A0)*tvals))/(1 - A0/B0*np.exp(-k2*(B0 - A0)*tvals))
 
-# Rate Equations
+# Numerical Solutions
 def dAdt(t, A):
     return -k2*A*(B0 - A0 + A)
 
@@ -141,7 +108,6 @@ def dBdt(t, B):
 def dCdt(t, C):
     return k2*(A0 + C0 - C)*(B0 + C0 - C)
 
-# Numerical Solutions
 A_num = solve_ivp(dAdt, (0, tspan), [A0], t_eval = tvals)
 B_num = solve_ivp(dBdt, (0, tspan), [B0], t_eval = tvals)
 C_num = solve_ivp(dCdt, (0, tspan), [C0], t_eval = tvals)
@@ -193,10 +159,3 @@ print(f'Half times for {numtraj} trajectories: {half_times}')
 print(f'Avg half time: {tau_actual} seconds')
 print(f'Theoretical half time: ln(2-A0/B0)/(B0-A0)/k2 = {tau_theoretical} seconds')
 print(f'Percent deviation: (actual-theoretical)/theoretical = {abs(tau_actual-tau_theoretical)/tau_theoretical*100} %')
-
-
-# In[ ]:
-
-
-
-
